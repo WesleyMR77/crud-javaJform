@@ -79,6 +79,11 @@ public class FrmCadProduto extends javax.swing.JInternalFrame {
                 "Id", "Nome", "Fornecedor", "CNPJ", "Tipo", "Quantidade"
             }
         ));
+        tblProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProdutoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProduto);
 
         jLabel6.setText("Quantidade:");
@@ -230,6 +235,10 @@ public class FrmCadProduto extends javax.swing.JInternalFrame {
         control.acaoAlterar(produto);
         preencherTabela();
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void tblProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProdutoMouseClicked
+       carregar();
+    }//GEN-LAST:event_tblProdutoMouseClicked
 
     /**
      * @param args the command line arguments
