@@ -20,6 +20,22 @@ public class ControllerProduto {
             JOptionPane.showMessageDialog(null, "Impossível salvar preecha os campos corretamente");
         }
     }
+    
+    public void acaoAlterar(Produto p) {
+        if (p != null && !p.getNome().equals("")) {
+            dao = new DaoProdutoImp();
+            dao.alterarProduto(p);
+            JOptionPane.showMessageDialog(null, "alterado com sucesso");
+        } else {
+            JOptionPane.showMessageDialog(null, "Impossível alterar preecha os campos corretamente");
+        }
+    }
+    
+    public void acaoDeletar(int id) {
+        dao = new DaoProdutoImp();
+        dao.excluirProduto(id);
+        JOptionPane.showMessageDialog(null, "excluido com sucesso");
+    }
 
     public List<Produto> getProduto() {
         dao = new DaoProdutoImp();

@@ -21,6 +21,22 @@ public class ControllerUsuario {
             JOptionPane.showMessageDialog(null, "Impossível salvar preecha os campos corretamente");
         }
     }
+    
+    public void acaoAlterar(Usuario u) {
+        if (u != null && !u.getNome().equals("") && !u.getSenha().equals("") && !u.getEmail().equals("") && u.getStatus() != 0) {
+            dao = new DaoUsuarioImp();
+            dao.alterarUsuario(u);
+            JOptionPane.showMessageDialog(null, "alterado com sucesso");
+        } else {
+            JOptionPane.showMessageDialog(null, "Impossível alterar preecha os campos corretamente");
+        }
+    }
+    
+        public void acaoDeletar(int id) {
+            dao = new DaoUsuarioImp();
+            dao.excluirUsuario(id);
+            JOptionPane.showMessageDialog(null, "excluido com sucesso");
+    }
 
     public List<Usuario> getUsuarios() {
         dao = new DaoUsuarioImp();

@@ -17,6 +17,7 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
         initComponents();
         txtId.setEnabled(false);
         preencherTabela();
+        
     }
 
     /**
@@ -45,6 +46,8 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
         rbComum = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUsuarios = new javax.swing.JTable();
+        btnEditar = new javax.swing.JButton();
+        btnDeletar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -124,7 +127,26 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
                 "Id", "Nome", "Senha", "Email", "Status"
             }
         ));
+        tblUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblUsuarios);
+
+        btnEditar.setText("Alterar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        btnDeletar.setText("Excluir");
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,10 +177,15 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
                                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(2, 2, 2)
-                                        .addComponent(painelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnEditar)
+                                            .addComponent(painelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addComponent(btnSalvar)))
+                                .addGap(34, 34, 34)
+                                .addComponent(btnSalvar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(73, 73, 73)
+                                .addComponent(btnDeletar)))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1)))
                 .addContainerGap())
@@ -168,9 +195,9 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitulo)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblId)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,13 +215,15 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(painelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                        .addComponent(btnSalvar))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSalvar)
+                            .addComponent(btnEditar))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnDeletar)
+                        .addGap(4, 4, 4))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -205,6 +234,8 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
         usuario.setNome(txtNome.getText());
         usuario.setSenha(String.valueOf(txtSenha.getPassword()));
         usuario.setEmail(txtEmail.getText());
+        
+        
         if(rbAdm.isSelected())
         {
             usuario.setStatus(1);
@@ -220,6 +251,7 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
                 usuario.setStatus(0);
             }
         }
+        System.out.println(rbAdm.getText());
         /*
         DaoUsuarioImp dao = new DaoUsuarioImp();
         dao.salvarUsuario(usuario);*/
@@ -234,9 +266,53 @@ public class FrmCadUsuario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
+    private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
+        carregar();
+    }//GEN-LAST:event_tblUsuariosMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        Usuario usuario = new Usuario();
+        usuario.setId(Integer.parseInt(txtId.getText()));
+        usuario.setNome(txtNome.getText());
+        usuario.setSenha(String.valueOf(txtSenha.getPassword()));
+        usuario.setEmail(txtEmail.getText());
+        
+        
+        if(rbAdm.isSelected())
+        {
+            usuario.setStatus(1);
+        }
+        else
+        {
+            if(rbComum.isSelected())
+            {
+                usuario.setStatus(2);
+            }
+            else
+            {
+                usuario.setStatus(0);
+            }
+        }
+        System.out.println(rbAdm.getText());
+        
+
+        control.acaoAlterar(usuario);
+        preencherTabela();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        
+        int id = Integer.parseInt(txtId.getText());
+
+        control.acaoDeletar(id);
+        preencherTabela();
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup GrupoStatus;
+    private javax.swing.JButton btnDeletar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEmail;
@@ -273,5 +349,22 @@ public void preencherTabela(){
         lista.get(i).getStatus(),
         });
     }
+    jScrollPane1.revalidate();
 }
+
+    private void carregar(){
+    txtId.setText(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 0).toString());
+        txtNome.setText(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 1).toString());
+        txtSenha.setText(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 2).toString());
+        txtEmail.setText(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 3).toString());
+        
+        if(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 4).toString().equals("1")){
+            rbAdm.setSelected(true);
+            rbComum.setSelected(false);
+        }
+        else if(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 4).toString().equals("2")){
+            rbAdm.setSelected(false);
+            rbComum.setSelected(true);
+        }
+    }
 }

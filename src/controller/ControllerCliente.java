@@ -21,7 +21,22 @@ DaoCliente dao;
             JOptionPane.showMessageDialog(null, "Impossível salvar preecha os campos corretamente");
         }
     }
-
+    public void acaoAlterar(Cliente c) {
+        if (c != null && !c.getNome().equals("")) {
+            dao = new DaoClienteImp();
+            dao.alterarCliente(c);
+            JOptionPane.showMessageDialog(null, "alterado com sucesso");
+        } else {
+            JOptionPane.showMessageDialog(null, "Impossível alterar preecha os campos corretamente");
+        }
+    }
+    
+    public void acaoDeletar(int id) {
+            dao = new DaoClienteImp();
+            dao.excluirCliente(id);
+            JOptionPane.showMessageDialog(null, "excluido com sucesso");
+    }
+        
     public List<Cliente> getCliente() {
         dao = new DaoClienteImp();
         lista.clear();

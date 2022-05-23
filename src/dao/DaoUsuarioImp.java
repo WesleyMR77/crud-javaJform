@@ -48,12 +48,48 @@ public class DaoUsuarioImp implements DaoUsuario {
 
     @Override
     public void alterarUsuario(Usuario u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        con = new Conexao().getConnection();
+        String sqlatu = "update tb_usuario set nome_usuario=?,senha_usuario=?,email_usuario=?, status_usuario=? where id_usuario=?";
+        try {
+            pstm = con.prepareStatement(sqlatu);
+            pstm.setString(1, u.getNome());
+            pstm.setString(2, u.getSenha());
+            pstm.setString(3, u.getEmail());
+            pstm.setInt(4, u.getStatus());
+            pstm.setInt(5, u.getId());
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException atuerr) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar usuário no banco de dados " + atuerr + " SQL: " + sqlatu);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException closerr) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar o banco ao inserir usuário" + closerr);
+            }
+
+        }
     }
 
     @Override
     public void excluirUsuario(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      con = new Conexao().getConnection();
+        String sqldel = "delete from tb_usuario where id_usuario=?";
+        try {
+            pstm = con.prepareStatement(sqldel);
+            pstm.setInt(1, id);
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException delerr) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir usuário no banco de dados " + delerr + " SQL: " + sqldel);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException closerr) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar o banco ao excluir usuário" + closerr);
+            }
+
+        }
     }
 
     @Override

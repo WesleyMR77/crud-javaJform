@@ -42,12 +42,48 @@ public class DaoProdutoImp implements DaoProduto{
 
     @Override
     public void alterarProduto(Produto p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        con = new Conexao().getConnection();
+        String sqlatu = "update tb_produto set nome_produto=?,fornecedor_produto=?,cnpj_produto=?, tipo_produto=?, quantidade_produto=? where id_produto=?";
+        try {
+            pstm = con.prepareStatement(sqlatu);
+            pstm.setString(1, p.getNome());
+            pstm.setString(2, p.getFornecedor());
+            pstm.setString(3, p.getCnpj());
+            pstm.setString(4, p.getTipo());
+            pstm.setInt(5, p.getQuantidade());
+            pstm.setInt(6, p.getId());
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException atuerr) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar produto no banco de dados " + atuerr + " SQL: " + sqlatu);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException closerr) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar o banco ao inserir produto" + closerr);
+            }
+
+        }
     }
 
     @Override
     public void excluirProduto(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         con = new Conexao().getConnection();
+        String sqldel = "delete from tb_produto where id_produto=?";
+        try {
+            pstm = con.prepareStatement(sqldel);
+            pstm.setInt(1, id);
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException delerr) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir produto no banco de dados " + delerr + " SQL: " + sqldel);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException closerr) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar o banco ao excluir produto" + closerr);
+            }
+        }
     }
 
     @Override
